@@ -1,0 +1,18 @@
+{
+  "FusionImport": {
+    "scope": "lua",
+    "prefix": "importf",
+    "body": [
+      "local Plugin = script:FindFirstAncestorWhichIsA(\"Plugin\")",
+      "local Fusion = require(Plugin:FindFirstChild(\"Fusion\", true))",
+      "local New,Children,OnEvent,Value,Spring,Computed,Tween = Fusion.New,Fusion.Children,Fusion.OnEvent,Fusion.Value,Fusion.Spring,Fusion.Computed,Fusion.Tween"
+    ],
+    "description": "Add Fusion to script"
+  },
+  "errorCheck": {
+    "scope": "lua",
+    "prefix": "errorCheck",
+    "body": ["local s, n = pcall(function()", "", "end)"],
+    "description": "Makes a pcall"
+  }
+}
