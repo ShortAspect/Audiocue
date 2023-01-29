@@ -29,15 +29,11 @@ type ToolbarProperties = {
 }
 
 return function(props: ToolbarProperties)
-	local toolbarButton = props.Toolbar:CreateButton(
-		props.Name,
-		props.ToolTip,
-		props.Image
-	)
+	local toolbarButton = props.Toolbar:CreateButton(props.Name, props.ToolTip, props.Image)
 
-	if props.Active~=nil then
+	if props.Active ~= nil then
 		toolbarButton:SetActive(unwrap(props.Active))
-		if unwrap(props.Active)~=props.Active then
+		if unwrap(props.Active) ~= props.Active then
 			Plugin.Unloading:Connect(Observer(props.Active):onChange(function()
 				toolbarButton:SetActive(unwrap(props.Active, false))
 			end))
@@ -45,7 +41,7 @@ return function(props: ToolbarProperties)
 	end
 
 	local hydrateProps = table.clone(props)
-	for _,propertyName in pairs(COMPONENT_ONLY_PROPERTIES) do
+	for _, propertyName in pairs(COMPONENT_ONLY_PROPERTIES) do
 		hydrateProps[propertyName] = nil
 	end
 

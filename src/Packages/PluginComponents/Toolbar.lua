@@ -16,7 +16,7 @@ return function(props: ToolbarProperties): PluginToolbar
 	local newToolbar = Plugin:CreateToolbar(props.Name)
 
 	local hydrateProps = table.clone(props)
-	for _,propertyName in pairs(COMPONENT_ONLY_PROPERTIES) do
+	for _, propertyName in pairs(COMPONENT_ONLY_PROPERTIES) do
 		hydrateProps[propertyName] = nil
 	end
 

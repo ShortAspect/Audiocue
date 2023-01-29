@@ -1,13 +1,15 @@
 local Packages = script.Parent.Parent.Packages
 local UI = script.Parent
 local Fusion = require(Packages.Fusion)
-local New, Children = Fusion.New, Fusion.Children
+local New, Children, OnEvent, Value, Spring, Computed, Tween =
+	Fusion.New, Fusion.Children, Fusion.OnEvent, Fusion.Value, Fusion.Spring, Fusion.Computed, Fusion.Tween
 local StudioComponents = Packages.StudioComponents
 local list = {}
 
 local Frame = require(StudioComponents.Background)
-local Button = require(StudioComponents.Button)
-local Label = require(StudioComponents.Label)
+local Loading = require(StudioComponents.Loading)
+local ClassIcon = require(StudioComponents.ClassIcon)
+local themeProvider = require(StudioComponents.Util.themeProvider)
 
 local CustomButton = require(UI:FindFirstChild("Button"))
 
@@ -17,7 +19,7 @@ function list:Init(props)
 		[Children] = {
 			New("Frame")({
 				Name = "TopBar",
-				BackgroundColor3 = Color3.fromRGB(53, 53, 53),
+				BackgroundColor3 = themeProvider:GetColor(Enum.StudioStyleGuideColor.Titlebar),
 				BorderColor3 = Color3.fromRGB(34, 34, 34),
 				Size = UDim2.fromScale(1, 0.0352),
 
@@ -31,9 +33,36 @@ function list:Init(props)
 
 					CustomButton({
 						Title = "File",
+						Count = 2,
+						Dropdown = {
+							Test = {
+								Text = "Hello",
+								Function = function()
+									print("Click")
+								end,
+							},
+							Test2 = {
+								Text = "Hello22",
+								Function = function()
+									print("Click")
+								end,
+							},
+						},
 					}),
-					CustomButton({
-						Title = "Track",
+				},
+			}),
+			New("Frame")({
+				Name = "Holder",
+				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+				Position = UDim2.fromScale(0, 0.0352),
+				Size = UDim2.fromScale(1, 0.965),
+				BackgroundTransparency = 1,
+				[Children] = {
+					New("UIListLayout")({
+						Name = "UIListLayout",
+						Padding = UDim.new(0, 2),
+						FillDirection = Enum.FillDirection.Horizontal,
+						SortOrder = Enum.SortOrder.LayoutOrder,
 					}),
 				},
 			}),

@@ -8,6 +8,11 @@ local ToolbarButton = require(PluginComponents.ToolbarButton)
 local Widget = require(PluginComponents.Widget)
 local App = require(UI.App)
 
+local New, Children, OnEvent, Value, Spring, Computed, Tween =
+	Fusion.New, Fusion.Children, Fusion.OnEvent, Fusion.Value, Fusion.Spring, Fusion.Computed, Fusion.Tween
+
+local AppTitle = Value("Audiocue")
+
 local PluginBar = Toolbar({
 	Name = "Audiocue",
 })
@@ -24,14 +29,15 @@ local WidgetGUI = Widget({
 	InitialEnabled = false,
 	InitialDockTo = Enum.InitialDockState.Float,
 	ForceInitialEnabled = true,
-	Name = "Audiocue",
-	FloatingSize = Vector2.new(320, 500),
-	MinimumSize = Vector2.new(320, 600),
+	Name = AppTitle,
+	FloatingSize = Vector2.new(800, 490),
+	MinimumSize = Vector2.new(700, 490),
 })
 WidgetGUI.Name = "Audiocue"
 
 local Frame = App:Init({
 	Parent = WidgetGUI,
+	Title = AppTitle,
 })
 
 local bool = false

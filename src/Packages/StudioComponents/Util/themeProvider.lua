@@ -26,13 +26,20 @@ local themeProvider = {
 	IsDark = Value(true),
 }
 
-function themeProvider:GetColor(studioStyleGuideColor: styleStyleGuideColor, studioStyleGuideModifier: styleGuideModifier?): computedOrValue
-	local hasState = (unwrap(studioStyleGuideModifier, false) ~= studioStyleGuideModifier) or (unwrap(studioStyleGuideColor, false) ~= studioStyleGuideColor)
+function themeProvider:GetColor(
+	studioStyleGuideColor: styleStyleGuideColor,
+	studioStyleGuideModifier: styleGuideModifier?
+): computedOrValue
+	local hasState = (unwrap(studioStyleGuideModifier, false) ~= studioStyleGuideModifier)
+		or (unwrap(studioStyleGuideColor, false) ~= studioStyleGuideColor)
 
 	local function isCorrectType(value, enumType)
 		local unwrapped = unwrap(value, false)
-		local isState = unwrapped ~= value and unwrapped~=nil
-		assert((value==nil or isState) or (typeof(value)=="EnumItem" and value.EnumType==enumType), "Incorrect type")
+		local isState = unwrapped ~= value and unwrapped ~= nil
+		assert(
+			(value == nil or isState) or (typeof(value) == "EnumItem" and value.EnumType == enumType),
+			"Incorrect type"
+		)
 	end
 
 	isCorrectType(studioStyleGuideColor, Enum.StudioStyleGuideColor)
@@ -46,7 +53,9 @@ function themeProvider:GetColor(studioStyleGuideColor: styleStyleGuideColor, stu
 	end
 
 	local themeValue = (function()
-		local styleGuideModifier = if unwrappedModifier~=nil then unwrappedModifier else Enum.StudioStyleGuideModifier.Default
+		local styleGuideModifier = if unwrappedModifier ~= nil
+			then unwrappedModifier
+			else Enum.StudioStyleGuideModifier.Default
 
 		local existingValue = currentTheme[unwrappedColor][styleGuideModifier]
 		if existingValue then
@@ -59,19 +68,21 @@ function themeProvider:GetColor(studioStyleGuideColor: styleStyleGuideColor, stu
 		return newThemeValue
 	end)()
 
-	return if not hasState then themeValue else Computed(function()
-		local currentColor = unwrap(studioStyleGuideColor)
-		local currentModifier = unwrap(studioStyleGuideModifier)
-		local currentValueState = self:GetColor(currentColor, currentModifier)
-		return currentValueState:get()
-	end)
+	return if not hasState
+		then themeValue
+		else Computed(function()
+			local currentColor = unwrap(studioStyleGuideColor)
+			local currentModifier = unwrap(studioStyleGuideModifier)
+			local currentValueState = self:GetColor(currentColor, currentModifier)
+			return currentValueState:get()
+		end)
 end
 
 function themeProvider:GetFont(fontName: (string | types.StateObject<string>)?): types.Computed<Enum.Font>
 	return Computed(function()
 		local givenFontName = unwrap(fontName)
 		local fontToGet = self.Fonts.Default
-		if givenFontName~=nil and self.Fonts[givenFontName] then
+		if givenFontName ~= nil and self.Fonts[givenFontName] then
 			fontToGet = self.Fonts[givenFontName]
 		end
 		return unwrap(fontToGet)
@@ -79,15 +90,15 @@ function themeProvider:GetFont(fontName: (string | types.StateObject<string>)?):
 end
 
 local function updateTheme()
-	for studioStyleGuideColor, styleGuideModifiers: {Enum.StudioStyleGuideModifier} in pairs(currentTheme) do
+	for studioStyleGuideColor, styleGuideModifiers: { Enum.StudioStyleGuideModifier } in pairs(currentTheme) do
 		for studioStyleGuideModifier, valueState in pairs(styleGuideModifiers) do
 			valueState:set(Studio.Theme:GetColor(studioStyleGuideColor, studioStyleGuideModifier))
 		end
 	end
 	themeProvider.Theme:set(Studio.Theme.Name)
 
-	local _,_,v = Studio.Theme:GetColor(Enum.StudioStyleGuideColor.MainBackground):ToHSV()
-	themeProvider.IsDark:set(v<=0.6)
+	local _, _, v = Studio.Theme:GetColor(Enum.StudioStyleGuideColor.MainBackground):ToHSV()
+	themeProvider.IsDark:set(v <= 0.6)
 end
 
 do
