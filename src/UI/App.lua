@@ -33,18 +33,34 @@ function list:Init(props)
 
 					CustomButton({
 						Title = "File",
-						Count = 2,
 						Dropdown = {
 							Test = {
-								Text = "Hello",
+								Text = "New",
 								Function = function()
-									print("Click")
+									print("New function")
 								end,
 							},
 							Test2 = {
-								Text = "Hello22",
+								Text = "Open",
 								Function = function()
-									print("Click")
+									print("open Function")
+								end,
+							},
+						},
+					}),
+					CustomButton({
+						Title = "Preview",
+						Dropdown = {
+							Test = {
+								Text = "Display",
+								Function = function()
+									print("Display")
+								end,
+							},
+							Test2 = {
+								Text = "Raw",
+								Function = function()
+									print("Raw")
 								end,
 							},
 						},
