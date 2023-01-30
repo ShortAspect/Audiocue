@@ -24,7 +24,7 @@ local Button = ToolbarButton({
 	Image = "rbxassetid://12294660975",
 })
 
-local WidgetGUI = Widget({
+local WidgetGUI: DockWidgetPluginGui = Widget({
 	Id = "Audiocue_Milk",
 	InitialEnabled = false,
 	InitialDockTo = Enum.InitialDockState.Float,

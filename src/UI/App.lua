@@ -12,12 +12,15 @@ local ClassIcon = require(StudioComponents.ClassIcon)
 local themeProvider = require(StudioComponents.Util.themeProvider)
 
 local CustomButton = require(UI:FindFirstChild("Button"))
+local Ref = Fusion.Ref
+local TopBar = Value()
 
 function list:Init(props)
 	return Frame({
 		Parent = props.Parent,
 		[Children] = {
 			New("Frame")({
+				[Ref] = TopBar,
 				Name = "TopBar",
 				BackgroundColor3 = themeProvider:GetColor(Enum.StudioStyleGuideColor.Titlebar),
 				BorderColor3 = Color3.fromRGB(34, 34, 34),
@@ -68,6 +71,7 @@ function list:Init(props)
 				},
 			}),
 			New("Frame")({
+
 				Name = "Holder",
 				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 				Position = UDim2.fromScale(0, 0.0352),
@@ -81,6 +85,23 @@ function list:Init(props)
 						SortOrder = Enum.SortOrder.LayoutOrder,
 					}),
 				},
+			}),
+			New("ImageButton")({
+				Name = "OffClick",
+				BackgroundTransparency = 0.5,
+				ImageTransparency = 1,
+				Position = UDim2.fromScale(0, 0.0352),
+				Size = UDim2.fromScale(1, 0.965),
+				ZIndex = 0,
+				[OnEvent("MouseButton1Down")] = function()
+					for i, v: Frame in pairs(TopBar:get():GetDescendants()) do
+						if v.Name == "Objects" then
+							if v.Visible == true then
+								v.Visible = false
+							end
+						end
+					end
+				end,
 			}),
 		},
 	})

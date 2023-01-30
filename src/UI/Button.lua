@@ -65,6 +65,7 @@ local function e(props)
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			BackgroundTransparency = 1,
 			Size = UDim2.fromOffset(36, 13),
+			ZIndex = 2,
 			[OnEvent("MouseButton1Down")] = function()
 				v.Function()
 			end,
@@ -97,6 +98,7 @@ local function e(props)
 					BackgroundColor3 = Color3.fromRGB(31, 31, 31),
 					BorderSizePixel = 0,
 					Position = UDim2.fromScale(0.0701, 1.18),
+					ZIndex = 2,
 					Size = ContainerSize,
 
 					[Children] = {
