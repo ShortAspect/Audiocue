@@ -1,6 +1,7 @@
 local Packages = script.Parent.Parent.Packages
 local UI = script.Parent
-local Fusion = require(Packages.Fusion)
+local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 local New, Children, OnEvent, Value, Spring, Computed, Tween =
 	Fusion.New, Fusion.Children, Fusion.OnEvent, Fusion.Value, Fusion.Spring, Fusion.Computed, Fusion.Tween
 local StudioComponents = Packages.StudioComponents
@@ -10,16 +11,27 @@ local Frame = require(StudioComponents.Background)
 local Loading = require(StudioComponents.Loading)
 local ClassIcon = require(StudioComponents.ClassIcon)
 local themeProvider = require(StudioComponents.Util.themeProvider)
+local Project
 
 local CustomButton = require(UI:FindFirstChild("Button"))
 local Ref = Fusion.Ref
 local TopBar = Value()
 
+local function closeMenu()
+	for i, v: Frame in pairs(TopBar:get():GetDescendants()) do
+		if v.Name == "Objects" then
+			if v.Visible == true then
+				v.Visible = false
+			end
+		end
+	end
+end
+
 function list:Init(props)
 	return Frame({
 		Parent = props.Parent,
 		[Children] = {
-			New("Frame")({
+			New("Frame")({ -- Top Bar?
 				[Ref] = TopBar,
 				Name = "TopBar",
 				BackgroundColor3 = themeProvider:GetColor(Enum.StudioStyleGuideColor.Titlebar),
@@ -63,7 +75,7 @@ function list:Init(props)
 							Test2 = {
 								Text = "Raw",
 								Function = function()
-									print("Raw")
+									closeMenu()
 								end,
 							},
 						},
@@ -93,15 +105,7 @@ function list:Init(props)
 				Position = UDim2.fromScale(0, 0.0352),
 				Size = UDim2.fromScale(1, 0.965),
 				ZIndex = 0,
-				[OnEvent("MouseButton1Down")] = function()
-					for i, v: Frame in pairs(TopBar:get():GetDescendants()) do
-						if v.Name == "Objects" then
-							if v.Visible == true then
-								v.Visible = false
-							end
-						end
-					end
-				end,
+				[OnEvent("MouseButton1Down")] = closeMenu,
 			}),
 		},
 	})

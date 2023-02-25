@@ -4,7 +4,10 @@
     "$className": "DataModel",
     "Workspace": {
       "Audiocue": {
-        "$path": "src"
+        "$path": "src",
+        "Utils": {
+          "$path": "Packages"
+        }
       }
     }
   }

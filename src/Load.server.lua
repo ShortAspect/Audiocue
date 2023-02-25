@@ -1,6 +1,7 @@
 local Packages = script.Parent.Packages
 local UI = script.Parent.UI
-local Fusion = require(Packages.Fusion)
+local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
+local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 local PluginComponents = Packages.PluginComponents
 
 local Toolbar = require(PluginComponents.Toolbar)
