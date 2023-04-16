@@ -8,7 +8,8 @@ local Toolbar = require(PluginComponents.Toolbar)
 local ToolbarButton = require(PluginComponents.ToolbarButton)
 local Widget = require(PluginComponents.Widget)
 local App = require(UI.App)
-
+local Maid = require(Packages.Maid)
+local MaidCore = Maid.new()
 local New, Children, OnEvent, Value, Spring, Computed, Tween =
 	Fusion.New, Fusion.Children, Fusion.OnEvent, Fusion.Value, Fusion.Spring, Fusion.Computed, Fusion.Tween
 
@@ -44,7 +45,10 @@ local Frame = App:Init({
 local bool = false
 
 local function click()
+	warn(typeof(PluginBar), typeof(Button), typeof(WidgetGUI))
 	WidgetGUI.Enabled = not WidgetGUI.Enabled
 end
 
-Button.Click:Connect(click)
+MaidCore:GiveTask(Button.Click:Connect(click))
+
+MaidCore:GiveTask(plugin.Unloading:Connect(function() end))
