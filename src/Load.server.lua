@@ -39,16 +39,21 @@ WidgetGUI.Name = "Audiocue"
 
 local Frame = App:Init({
 	Parent = WidgetGUI,
+	Maid = MaidCore,
 	Title = AppTitle,
 })
 
 local bool = false
 
 local function click()
-	warn(typeof(PluginBar), typeof(Button), typeof(WidgetGUI))
 	WidgetGUI.Enabled = not WidgetGUI.Enabled
 end
 
 MaidCore:GiveTask(Button.Click:Connect(click))
 
-MaidCore:GiveTask(plugin.Unloading:Connect(function() end))
+MaidCore:GiveTask(plugin.Unloading:Connect(function()
+	PluginBar:Destroy()
+	Button:Destroy()
+	WidgetGUI:Destroy()
+	MaidCore:DoCleaning()
+end))

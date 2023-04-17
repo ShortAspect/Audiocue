@@ -10,8 +10,12 @@ local list = {}
 local Frame = require(StudioComponents.Background)
 local Loading = require(StudioComponents.Loading)
 local ClassIcon = require(StudioComponents.ClassIcon)
+local Shadow = require(StudioComponents.Shadow)
 local themeProvider = require(StudioComponents.Util.themeProvider)
+local Maid = require(Packages.Maid)
+local DefaultErrors = require(Packages.DefaultErrors)
 local Project
+local OurMaid
 
 local CustomButton = require(UI:FindFirstChild("Button"))
 local Ref = Fusion.Ref
@@ -28,6 +32,12 @@ local function closeMenu()
 end
 
 function list:Init(props)
+	OurMaid = props.Maid
+
+	if not Maid.isMaid(OurMaid) then
+		DefaultErrors.MaidObjectNotVaild("App.lua")
+	end
+
 	return Frame({
 		Parent = props.Parent,
 		[Children] = {
@@ -45,9 +55,10 @@ function list:Init(props)
 						FillDirection = Enum.FillDirection.Horizontal,
 						SortOrder = Enum.SortOrder.LayoutOrder,
 					}),
-
-					CustomButton({
+					-- Hello everyone this might be a memory leak right here --->
+					CustomButton({ -- Edit this part for new Title Bars
 						Title = "File",
+						Maid = OurMaid,
 						Dropdown = {
 							Test = {
 								Text = "New",
@@ -65,6 +76,7 @@ function list:Init(props)
 					}),
 					CustomButton({
 						Title = "Preview",
+						Maid = OurMaid,
 						Dropdown = {
 							Test = {
 								Text = "Display",
@@ -80,21 +92,52 @@ function list:Init(props)
 							},
 						},
 					}),
+					CustomButton({
+						Title = "Debug",
+						Maid = OurMaid,
+						Dropdown = {
+							-- ViewContent = {
+							-- 	Text = "A",
+							-- 	Function = function()
+							-- 		warn(Plugin:GetChildren()[1]:GetChildren())
+							-- 	end,
+							-- },
+							A = {
+								Text = "A",
+								Function = function()
+									warn(script.Parent)
+								end,
+							},
+							b = {
+								Text = "AB",
+								Function = function() end,
+							},
+							c = {
+								Text = "ABC",
+								Function = function() end,
+							},
+							d = {
+								Text = "ABCD",
+								Function = function() end,
+							},
+						},
+					}),
 				},
 			}),
 			New("Frame")({
-
 				Name = "Holder",
 				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 				Position = UDim2.fromScale(0, 0.0352),
 				Size = UDim2.fromScale(1, 0.965),
 				BackgroundTransparency = 1,
 				[Children] = {
-					New("UIListLayout")({
-						Name = "UIListLayout",
-						Padding = UDim.new(0, 2),
-						FillDirection = Enum.FillDirection.Horizontal,
-						SortOrder = Enum.SortOrder.LayoutOrder,
+					New("Frame")({
+						Size = UDim2.fromOffset(200, 200),
+						Position = UDim2.fromOffset(50, 10),
+						BackgroundColor3 = Color3.fromRGB(85, 170, 127),
+						[Children] = {
+							Shadow({}),
+						},
 					}),
 				},
 			}),
