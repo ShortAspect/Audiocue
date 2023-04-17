@@ -1,5 +1,5 @@
 local Packages = script.Parent.Parent.Packages
-local UI = script.Parent
+local UI = Packages.Parent.UI
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 local New, Children, OnEvent, Value, Spring, Computed, Tween =
@@ -17,7 +17,7 @@ local DefaultErrors = require(Packages.DefaultErrors)
 local Project
 local OurMaid
 
-local CustomButton = require(UI:FindFirstChild("Button"))
+local CustomButton = require(UI.MenuButton)
 local Ref = Fusion.Ref
 local TopBar = Value()
 
@@ -103,22 +103,11 @@ function list:Init(props)
 							-- 	end,
 							-- },
 							A = {
-								Text = "A",
+								Text = "1234567",
+								LayoutOrder = 1,
 								Function = function()
 									warn(script.Parent)
 								end,
-							},
-							b = {
-								Text = "AB",
-								Function = function() end,
-							},
-							c = {
-								Text = "ABC",
-								Function = function() end,
-							},
-							d = {
-								Text = "ABCD",
-								Function = function() end,
 							},
 						},
 					}),

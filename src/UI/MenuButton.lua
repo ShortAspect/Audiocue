@@ -1,4 +1,7 @@
-local function e(props)
+export type data = {
+	Title: string,
+}
+local function e(props: data)
 	local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 	local Packages = script.Parent.Parent.Packages
 	local StudioComponents = Packages.StudioComponents
@@ -60,6 +63,10 @@ local function e(props)
 	--------------------------------------------------
 
 	local Buttons = ForValues(props.Dropdown, function(v) -- Makes button for a list.
+		if not v.LayoutOrder then
+			v.LayoutOrder = 1
+		end
+
 		return New("TextButton")({
 			Name = "TextLabel",
 			FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json"),
@@ -71,6 +78,7 @@ local function e(props)
 			TextYAlignment = Enum.TextYAlignment.Top,
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			BackgroundTransparency = 1,
+			LayoutOrder = v.LayoutOrder,
 			Size = UDim2.fromOffset(36, 13),
 			ZIndex = 2,
 			[OnEvent("MouseButton1Down")] = function()
@@ -135,7 +143,7 @@ local function e(props)
 					BackgroundTransparency = 1,
 					Size = UDim2.fromScale(1, 1),
 					[OnEvent("MouseEnter")] = function() -- On function
-						for i, v: Frame in pairs(Button:get().Parent:GetDescendants()) do
+						for _, v: Frame in pairs(Button:get().Parent:GetDescendants()) do
 							if v.Name == "Objects" then
 								if v.Visible == true then
 									v.Visible = false
