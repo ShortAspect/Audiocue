@@ -1,0 +1,9 @@
+site_name: Audiocue Docs
+site_author: MilkshakeSir
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/Audiocue-Larger.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
