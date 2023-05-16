@@ -1,9 +1,56 @@
 site_name: Audiocue Docs
+repo_name: milk-studio/Audiocue
+repo_url: https://github.com/milk-studio/Audiocue
 site_author: MilkshakeSir
 theme:
   name: material
   logo: assets/logo.svg
   favicon: assets/Audiocue-Larger.svg
+  features:
+    - content.code.copy
+    - navigation.instant
+    - navigation.footer
+    - navigation.instant
+    - header.autohide
+    - navigation.tabs
+    - navigation.sections
+  icon:
+    repo: fontawesome/brands/github
   font:
-    text: Inter
+    text: Nunito
     code: JetBrains Mono
+extra_css:
+  - "css/extra.css"
+  - "css/code.css"
+plugins:
+  - search
+copyright: Copyright &copy; 2023 milk-studio
+nav:
+  - Quick Info:
+      - Intro: index.md
+      - History: Info/why.md
+  - Info:
+      - File Export: Info/ExportedFiles.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/milk-studio
+      name: Our GitHub
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/milkstudio72008
+      name: Not active
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+  - abbr
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg

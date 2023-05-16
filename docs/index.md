@@ -1,17 +1,9 @@
-# Welcome to MkDocs
+# Intro
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Welcome to the documentation of [Audiocue](https://github.com/milk-studio/Audiocue).
 
-## Commands
+[Audiocue](https://github.com/milk-studio/Audiocue) is an app for making dialogs and captions both in the same app.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+This app has been made for the making of [Milk's Studio](https://www.roblox.com/groups/15945874/Milk-s-Studio#!/about) games but the plugin is now open-source.
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+The documentation will show you how to add subtitles and dialog from this plugin into your game.
