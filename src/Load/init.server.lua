@@ -25,7 +25,7 @@ local Button = ToolbarButton({
 	Toolbar = PluginBar,
 	ToolTip = "Toggle Menu",
 	Name = "Open",
-	Image = "rbxassetid://12294660975",
+	Image = "rbxassetid://13548900880",
 })
 
 local WidgetGUI: DockWidgetPluginGui = Widget({

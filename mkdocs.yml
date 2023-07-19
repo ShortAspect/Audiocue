@@ -17,14 +17,14 @@ theme:
   icon:
     repo: fontawesome/brands/github
   font:
-    text: Nunito
+    text: Figtree
     code: JetBrains Mono
 extra_css:
   - "css/extra.css"
   - "css/code.css"
 plugins:
   - search
-copyright: Copyright &copy; 2023 milk-studio
+copyright: Copyright &copy; 2023 Milk's Studio/MilkshakeSir
 nav:
   - Quick Info:
       - Intro: index.md
