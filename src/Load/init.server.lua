@@ -10,12 +10,13 @@ local ToolbarButton = require(PluginComponents.ToolbarButton)
 local Widget = require(PluginComponents.Widget)
 local App = require(Self.App)
 local Maid = require(Packages.Maid)
+local MetaData = require(Self.Parent.Metadata)
 local MaidCore = Maid.new()
 
 if RunService:IsStudio() and RunService:IsRunMode() then
 end
 
-local AppTitle = "Audiocue"
+local AppTitle = MetaData.Name
 
 local PluginBar = Toolbar({
 	Name = AppTitle,
@@ -25,7 +26,7 @@ local Button = ToolbarButton({
 	Toolbar = PluginBar,
 	ToolTip = "Toggle Menu",
 	Name = "Open",
-	Image = "rbxassetid://13548900880",
+	Image = MetaData.Icons.Toolbar,
 })
 
 local WidgetGUI: DockWidgetPluginGui = Widget({
@@ -44,6 +45,11 @@ App:Init({
 	Maid = MaidCore,
 	Title = AppTitle,
 	PluginEvent = plugin.Unloading,
+
+	MainWindow = {
+		MainWindowEvent = WidgetGUI:GetPropertyChangedSignal("Enabled"),
+		MainWindowObject = WidgetGUI,
+	},
 })
 
 MaidCore:GiveTask(Button.Click:Connect(function()

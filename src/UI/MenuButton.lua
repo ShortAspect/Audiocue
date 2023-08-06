@@ -21,11 +21,12 @@ local function e(props: data)
 	local Ref = Fusion.Ref
 	-- Import important data
 	local Size = Value(UDim2.fromScale(1, 1))
-	local TopColor = Value(Color3.fromRGB(53, 53, 53))
+
 	local info = TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
 	local ColorBone = Value(1)
 	local NormalColor = themeProvider:GetColor(Enum.StudioStyleGuideColor.Titlebar)
 	local HoldColor = themeProvider:GetColor(Enum.StudioStyleGuideColor.MainBackground)
+	local TopColor = NormalColor
 	local ButtonCount = 0
 
 	-- Checking the value of `Maid`
@@ -68,16 +69,11 @@ local function e(props: data)
 	bounds:Destroy()
 
 	-- Initialize a variable to hold the highest LayoutOrder value
-	local highestTextBoundsX = 0
 	local textBondsList = {}
 
 	local Buttons = ForValues(props.Dropdown, function(v) -- Makes button for a list.
 		LayoutOrderCount = LayoutOrderCount + 1
 		local TextScaled = false
-
-		if string.len(v.Text) > 7 then
-			TextScaled = true
-		end
 
 		local m = Instance.new("TextButton")
 		m.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
@@ -103,7 +99,7 @@ local function e(props: data)
 		local buttonObject = New("TextButton")({
 			Name = LayoutOrderCount,
 			FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json"),
-			TextColor3 = Color3.fromRGB(255, 255, 255),
+			TextColor3 = themeProvider:GetColor(Enum.StudioStyleGuideColor.ButtonText),
 			TextSize = 13,
 			TextScaled = TextScaled,
 			Text = v.Text,
@@ -121,6 +117,8 @@ local function e(props: data)
 		})
 		return buttonObject
 	end, Fusion.cleanup)
+
+	-- Find the mean of all the buttons X text bounds
 
 	local meanBounds = 0
 	for i, v in pairs(textBondsList) do
@@ -152,7 +150,7 @@ local function e(props: data)
 				New("Frame")({
 					Name = "Objects",
 					Visible = false,
-					BackgroundColor3 = Color3.fromRGB(31, 31, 31),
+					BackgroundColor3 = themeProvider:GetColor(Enum.StudioStyleGuideColor.FilterButtonHover),
 					BorderSizePixel = 0,
 					Position = UDim2.fromScale(0.0701, 1.18),
 					ZIndex = 2,

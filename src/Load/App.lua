@@ -52,9 +52,15 @@ AboutSoftware({
 function list:Init(props)
 	OurMaid = props.Maid
 
-	props.PluginEvent:Connect(function()
+	OurMaid:GiveTask(props.MainWindow.MainWindowEvent:Connect(function()
+		if props.MainWindow.MainWindowObject.Enabled == false then
+			WidgetGUI.Enabled = false
+		end
+	end))
+
+	OurMaid:GiveTask(props.PluginEvent:Connect(function()
 		WidgetGUI:Destroy()
-	end)
+	end))
 
 	if not Maid.isMaid(OurMaid) then
 		DefaultErrors.MaidObjectNotVaild("App.lua")

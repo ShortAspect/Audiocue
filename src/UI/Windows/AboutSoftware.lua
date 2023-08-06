@@ -3,17 +3,23 @@ local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 local New, Children, OnEvent, Value, Spring, Computed, Tween =
 	Fusion.New, Fusion.Children, Fusion.OnEvent, Fusion.Value, Fusion.Spring, Fusion.Computed, Fusion.Tween
 
-local PluginName = "Audiocue"
-local image = "rbxassetid://13548900880"
+local Root = script.Parent.Parent.Parent
+local MetaData = require(Root.Metadata)
+local StudioComponents = Root.Packages.StudioComponents
+local themeProvider = require(StudioComponents.Util.themeProvider)
+local PluginName = MetaData.Name
+local image = MetaData.Icons.HiRes
 local License = "MIT license"
 local CurrentYear = os.date("%Y", os.time())
-local Version = "0.0.0"
+local Version = MetaData.Version
+
+local TextColor = themeProvider:GetColor(Enum.StudioStyleGuideColor.MainText)
 
 local function e(props)
 	return New("Frame")({
 		Name = "Frame",
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		BackgroundColor3 = Color3.fromRGB(46, 46, 46),
+		BackgroundColor3 = themeProvider:GetColor(Enum.StudioStyleGuideColor.MainBackground),
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BorderSizePixel = 0,
 		Position = UDim2.fromScale(0.5, 0.5),
@@ -48,7 +54,7 @@ local function e(props)
 							Enum.FontStyle.Normal
 						),
 						Text = PluginName,
-						TextColor3 = Color3.fromRGB(255, 255, 255),
+						TextColor3 = TextColor,
 						TextSize = 20,
 						TextWrapped = true,
 						AnchorPoint = Vector2.new(0.5, 0),
@@ -67,7 +73,7 @@ local function e(props)
 							Enum.FontStyle.Normal
 						),
 						Text = "Libraries",
-						TextColor3 = Color3.fromRGB(255, 255, 255),
+						TextColor3 = TextColor,
 						TextSize = 20,
 						TextWrapped = true,
 						AnchorPoint = Vector2.new(0.5, 0),
@@ -88,7 +94,7 @@ local function e(props)
 					Enum.FontStyle.Italic
 				),
 				Text = `This software is under the {License}`,
-				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextColor3 = TextColor,
 				TextSize = 15,
 				AnchorPoint = Vector2.new(0.5, 0),
 				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
@@ -107,7 +113,7 @@ local function e(props)
 					Enum.FontStyle.Italic
 				),
 				Text = `©{CurrentYear} Milk's Studio`,
-				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextColor3 = TextColor,
 				TextSize = 15,
 				AnchorPoint = Vector2.new(0.5, 0),
 				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
@@ -125,7 +131,7 @@ local function e(props)
 					Enum.FontStyle.Italic
 				),
 				Text = `Version {Version}v`,
-				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextColor3 = TextColor,
 				TextSize = 15,
 				AnchorPoint = Vector2.new(0.5, 0),
 				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
@@ -155,7 +161,7 @@ local function e(props)
 						Name = "TextLabel",
 						FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json"),
 						Text = "Fusion - Studio Elttob",
-						TextColor3 = Color3.fromRGB(255, 255, 255),
+						TextColor3 = TextColor,
 						TextSize = 15,
 						TextXAlignment = Enum.TextXAlignment.Left,
 						AnchorPoint = Vector2.new(0.5, 0),
@@ -171,7 +177,7 @@ local function e(props)
 						Name = "TextLabel",
 						FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json"),
 						Text = "PluginEssentials - boatbomber & mvyasu",
-						TextColor3 = Color3.fromRGB(255, 255, 255),
+						TextColor3 = TextColor,
 						TextSize = 14,
 						TextXAlignment = Enum.TextXAlignment.Left,
 						AnchorPoint = Vector2.new(0.5, 0),
@@ -192,7 +198,7 @@ local function e(props)
 					Enum.FontStyle.Normal
 				),
 				Text = "Icons from Icon8",
-				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextColor3 = TextColor,
 				TextSize = 15,
 				AnchorPoint = Vector2.new(0.5, 0),
 				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
