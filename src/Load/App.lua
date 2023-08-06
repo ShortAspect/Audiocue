@@ -1,3 +1,4 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Packages = script.Parent.Parent.Packages
 local UI = Packages.Parent.UI
 local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
@@ -5,14 +6,16 @@ local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 local New, Children, OnEvent, Value, Spring, Computed, Tween =
 	Fusion.New, Fusion.Children, Fusion.OnEvent, Fusion.Value, Fusion.Spring, Fusion.Computed, Fusion.Tween
 local StudioComponents = Packages.StudioComponents
+local PluginComponents = Packages.PluginComponents
 local list = {}
 
 local Frame = require(StudioComponents.Background)
-local Loading = require(StudioComponents.Loading)
-local ClassIcon = require(StudioComponents.ClassIcon)
+-- local Loading = require(StudioComponents.Loading)
+-- local ClassIcon = require(StudioComponents.ClassIcon)
 local Shadow = require(StudioComponents.Shadow)
 local themeProvider = require(StudioComponents.Util.themeProvider)
 local Maid = require(Packages.Maid)
+local Widget = require(PluginComponents.Widget)
 local DefaultErrors = require(Packages.DefaultErrors)
 local Project
 local OurMaid
@@ -31,8 +34,27 @@ local function closeMenu()
 	end
 end
 
+local AboutSoftware = require(UI.Windows.AboutSoftware)
+
+local WidgetGUI: DockWidgetPluginGui = Widget({
+	Id = "Audiocue_AboutInfo",
+	InitialEnabled = false,
+	InitialDockTo = Enum.InitialDockState.Float,
+	ForceInitialEnabled = true,
+	Name = "About",
+	FloatingSize = Vector2.new(260, 330),
+	MinimumSize = Vector2.new(240, 305),
+})
+AboutSoftware({
+	Parent = WidgetGUI,
+})
+
 function list:Init(props)
 	OurMaid = props.Maid
+
+	props.PluginEvent:Connect(function()
+		WidgetGUI:Destroy()
+	end)
 
 	if not Maid.isMaid(OurMaid) then
 		DefaultErrors.MaidObjectNotVaild("App.lua")
@@ -51,7 +73,7 @@ function list:Init(props)
 				[Children] = {
 					New("UIListLayout")({
 						Name = "UIListLayout",
-						Padding = UDim.new(0, 2),
+						Padding = UDim.new(0, 0),
 						FillDirection = Enum.FillDirection.Horizontal,
 						SortOrder = Enum.SortOrder.LayoutOrder,
 					}),
@@ -62,14 +84,23 @@ function list:Init(props)
 						Dropdown = {
 							Test = {
 								Text = "New",
+								LayoutOrder = 1,
 								Function = function()
 									print("New function")
 								end,
 							},
 							Test2 = {
 								Text = "Open",
+								LayoutOrder = 2,
 								Function = function()
 									print("open Function")
+								end,
+							},
+							AboutInfo = {
+								Text = "About Audiocue",
+								LayoutOrder = 3,
+								Function = function()
+									WidgetGUI.Enabled = not WidgetGUI.Enabled
 								end,
 							},
 						},
@@ -103,11 +134,15 @@ function list:Init(props)
 							-- 	end,
 							-- },
 							A = {
-								Text = "1234567",
+								Text = "12345678910",
 								LayoutOrder = 1,
 								Function = function()
 									warn(script.Parent)
 								end,
+							},
+
+							E = {
+								Text = "Apply effect to all tracks",
 							},
 						},
 					}),

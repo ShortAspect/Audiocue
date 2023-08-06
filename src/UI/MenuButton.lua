@@ -2,6 +2,8 @@ export type data = {
 	Title: string,
 }
 local function e(props: data)
+	local TextService = game:GetService("TextService")
+	local ServerStorage = game:GetService("ServerStorage")
 	local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 	local Packages = script.Parent.Parent.Packages
 	local StudioComponents = Packages.StudioComponents
@@ -38,11 +40,12 @@ local function e(props: data)
 		ButtonCount = ButtonCount + 1
 	end
 
+	local LayoutOrderCount = 0
 	local frameSpacing = 5
 	local framePadding = 5 -- Change this for padding
 	local ContainerHeight = ButtonCount * 13 + framePadding + framePadding + (ButtonCount - 1) * frameSpacing -- ChatGPT
 	--warn(`Debug line ButtonCount {ButtonCount} Height {ContainerWidth}`)
-	local ContainerSize = Value(UDim2.fromOffset(57, ContainerHeight))
+
 	local mouseInFrame = false
 	local MainToggle = Value(false)
 	local containerVisble = Value(false)
@@ -57,40 +60,79 @@ local function e(props: data)
 	bounds.Size = UDim2.fromScale(0.0521, 1)
 	bounds.BackgroundTransparency = 1
 
-	local size = bounds.TextBounds
+	local dataTopLabel = Instance.new("GetTextBoundsParams")
+	dataTopLabel.Text = props.Title
+	dataTopLabel.Font = Font.new("rbxasset://fonts/families/SourceSansPro.json")
 
+	local size = bounds.TextBounds
 	bounds:Destroy()
-	--------------------------------------------------
+
+	-- Initialize a variable to hold the highest LayoutOrder value
+	local highestTextBoundsX = 0
+	local textBondsList = {}
 
 	local Buttons = ForValues(props.Dropdown, function(v) -- Makes button for a list.
-		if not v.LayoutOrder then
-			v.LayoutOrder = 1
+		LayoutOrderCount = LayoutOrderCount + 1
+		local TextScaled = false
+
+		if string.len(v.Text) > 7 then
+			TextScaled = true
 		end
 
-		return New("TextButton")({
-			Name = "TextLabel",
+		local m = Instance.new("TextButton")
+		m.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json")
+		m.TextColor3 = Color3.fromRGB(255, 255, 255)
+		m.TextSize = 13
+		m.TextScaled = false
+		m.Text = v.Text
+		m.TextWrapped = false
+		m.TextXAlignment = Enum.TextXAlignment.Left
+		m.TextYAlignment = Enum.TextYAlignment.Top
+		m.AutoButtonColor = false
+		m.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		m.BackgroundTransparency = 1
+		m.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		m.BorderSizePixel = 0
+		m.Size = UDim2.new(1, 0, 0, 15)
+		m.Parent = ServerStorage
+
+		table.insert(textBondsList, m.TextBounds.X)
+
+		m:Destroy()
+
+		local buttonObject = New("TextButton")({
+			Name = LayoutOrderCount,
 			FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json"),
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextSize = 13,
+			TextScaled = TextScaled,
 			Text = v.Text,
-			TextWrapped = true,
+			TextWrapped = false,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Top,
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			BackgroundTransparency = 1,
 			LayoutOrder = v.LayoutOrder,
-			Size = UDim2.fromOffset(36, 13),
+			Size = UDim2.new(1, 0, 0, 15),
 			ZIndex = 2,
 			[OnEvent("MouseButton1Down")] = function()
 				v.Function()
 			end,
 		})
+		return buttonObject
 	end, Fusion.cleanup)
+
+	local meanBounds = 0
+	for i, v in pairs(textBondsList) do
+		meanBounds = meanBounds + v
+	end
+
+	local ContainerSize = Value(UDim2.fromOffset(((meanBounds / #textBondsList) + 25) * 1.3, ContainerHeight))
 
 	return {
 		New("Frame")({
 			[Ref] = Button,
-			Name = "Frame",
+			Name = props.Title,
 			BorderSizePixel = 0,
 			BackgroundTransparency = 1,
 			Size = UDim2.new(0, size.X + framePadding, 1, 0),
@@ -117,20 +159,25 @@ local function e(props: data)
 					Size = ContainerSize,
 
 					[Children] = {
-						Buttons,
-						New("UIListLayout")({
-							Name = "UIListLayout",
-							Padding = UDim.new(0, frameSpacing),
-							SortOrder = Enum.SortOrder.LayoutOrder,
-						}),
+						New("Frame")({
+							Size = UDim2.new(1, 0, 1, 0),
+							BackgroundTransparency = 1,
+							[Children] = {
+								Buttons,
+								New("UIListLayout")({
+									Name = "UIListLayout",
+									Padding = UDim.new(0, 3),
+									SortOrder = Enum.SortOrder.LayoutOrder,
+								}),
 
-						New("UIPadding")({
-							Name = "UIPadding",
-							PaddingBottom = UDim.new(0, framePadding),
-							PaddingLeft = UDim.new(0, framePadding),
-							PaddingRight = UDim.new(0, framePadding),
-							PaddingTop = UDim.new(0, framePadding),
+								New("UIPadding")({
+									Name = "UIPadding",
+									PaddingLeft = UDim.new(0, 5),
+									PaddingTop = UDim.new(0, 5),
+								}),
+							},
 						}),
+						Shadow({}),
 					},
 				}),
 				New("TextButton")({ -- Topbar Button

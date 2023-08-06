@@ -29,7 +29,7 @@ local Button = ToolbarButton({
 })
 
 local WidgetGUI: DockWidgetPluginGui = Widget({
-	Id = "Audiocue_Milk",
+	Id = "Audiocue_MainWindow",
 	InitialEnabled = false,
 	InitialDockTo = Enum.InitialDockState.Float,
 	ForceInitialEnabled = true,
@@ -37,12 +37,13 @@ local WidgetGUI: DockWidgetPluginGui = Widget({
 	FloatingSize = Vector2.new(800, 490),
 	MinimumSize = Vector2.new(700, 490),
 })
-WidgetGUI.Name = AppTitle
+-- WidgetGUI.Name = AppTitle
 
 App:Init({
 	Parent = WidgetGUI,
 	Maid = MaidCore,
 	Title = AppTitle,
+	PluginEvent = plugin.Unloading,
 })
 
 MaidCore:GiveTask(Button.Click:Connect(function()
