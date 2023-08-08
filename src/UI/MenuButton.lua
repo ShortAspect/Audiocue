@@ -26,7 +26,7 @@ local function e(props: data)
 	local ColorBone = Value(1)
 	local NormalColor = themeProvider:GetColor(Enum.StudioStyleGuideColor.Titlebar)
 	local HoldColor = themeProvider:GetColor(Enum.StudioStyleGuideColor.MainBackground)
-	local TopColor = NormalColor
+	local TopColor = Value(Color3.fromRGB(53, 53, 53))
 	local ButtonCount = 0
 
 	-- Checking the value of `Maid`

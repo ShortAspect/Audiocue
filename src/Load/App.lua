@@ -5,6 +5,7 @@ local Plugin = script:FindFirstAncestorWhichIsA("Plugin")
 local Fusion = require(Plugin:FindFirstChild("Fusion", true))
 local New, Children, OnEvent, Value, Spring, Computed, Tween =
 	Fusion.New, Fusion.Children, Fusion.OnEvent, Fusion.Value, Fusion.Spring, Fusion.Computed, Fusion.Tween
+local OnChange = Fusion.OnChange
 local StudioComponents = Packages.StudioComponents
 local PluginComponents = Packages.PluginComponents
 local list = {}
@@ -19,7 +20,7 @@ local Widget = require(PluginComponents.Widget)
 local DefaultErrors = require(Packages.DefaultErrors)
 local Project
 local OurMaid
-
+local roundNumber = math.floor
 local CustomButton = require(UI.MenuButton)
 local Ref = Fusion.Ref
 local TopBar = Value()
@@ -49,6 +50,13 @@ AboutSoftware({
 	Parent = WidgetGUI,
 })
 
+local Studio = settings().Studio
+local EnumValue = Studio.Theme:GetColor(Enum.StudioStyleGuideColor.Titlebar)
+
+local ColorValue = Value(Color3.fromRGB(EnumValue.R * 255, EnumValue.G * 255, EnumValue.B * 255))
+
+local TapBarColor = Computed(function() end)
+
 function list:Init(props)
 	OurMaid = props.Maid
 
@@ -72,8 +80,7 @@ function list:Init(props)
 			New("Frame")({ -- Top Bar?
 				[Ref] = TopBar,
 				Name = "TopBar",
-				BackgroundColor3 = themeProvider:GetColor(Enum.StudioStyleGuideColor.Titlebar),
-				BorderColor3 = Color3.fromRGB(34, 34, 34),
+				BackgroundColor3 = Color3.fromRGB(53, 53, 53),
 				Size = UDim2.fromScale(1, 0.0352),
 
 				[Children] = {
@@ -153,6 +160,11 @@ function list:Init(props)
 						},
 					}),
 				},
+				[OnChange("BackgroundColor3")] = function()
+					if Studio.Theme == "Dark" then
+						warn("Studio Color Changed")
+					end
+				end,
 			}),
 			New("Frame")({
 				Name = "Holder",
@@ -160,16 +172,7 @@ function list:Init(props)
 				Position = UDim2.fromScale(0, 0.0352),
 				Size = UDim2.fromScale(1, 0.965),
 				BackgroundTransparency = 1,
-				[Children] = {
-					New("Frame")({
-						Size = UDim2.fromOffset(200, 200),
-						Position = UDim2.fromOffset(50, 10),
-						BackgroundColor3 = Color3.fromRGB(85, 170, 127),
-						[Children] = {
-							Shadow({}),
-						},
-					}),
-				},
+				[Children] = {},
 			}),
 			New("ImageButton")({
 				Name = "OffClick",

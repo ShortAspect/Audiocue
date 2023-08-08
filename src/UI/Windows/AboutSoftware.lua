@@ -9,7 +9,7 @@ local StudioComponents = Root.Packages.StudioComponents
 local themeProvider = require(StudioComponents.Util.themeProvider)
 local PluginName = MetaData.Name
 local image = MetaData.Icons.HiRes
-local License = "MIT license"
+local License = MetaData.Liecense
 local CurrentYear = os.date("%Y", os.time())
 local Version = MetaData.Version
 
